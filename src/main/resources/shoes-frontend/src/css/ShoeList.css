@@ -1,0 +1,13 @@
+.shoe-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+
+@media (max-width: 768px) {
+  .shoe-list {
+    flex-direction: column;
+  }
+}
