@@ -1,8 +1,5 @@
 # Shoe Store
 
-![Screenshot of the application](application.png)
-
-
 A web-based shoe store application with React frontend and Spring Boot backend.
 
 ## Getting Started
