@@ -1,8 +1,8 @@
 package com.example.shoesonlineapp.service;
 
 
-import com.example.shoesonlineapp.controller.AuthenticationRequest;
-import com.example.shoesonlineapp.controller.AuthenticationResponse;
+import com.example.shoesonlineapp.auth.AuthenticationRequest;
+import com.example.shoesonlineapp.auth.AuthenticationResponse;
 import com.example.shoesonlineapp.controller.RegisterRequest;
 import com.example.shoesonlineapp.entity.Role;
 import com.example.shoesonlineapp.entity.User;
