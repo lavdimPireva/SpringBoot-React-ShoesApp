@@ -1,5 +1,5 @@
 package com.example.shoesonlineapp.service;
-import com.example.shoesonlineapp.config.KeyGenerator;
+import com.example.shoesonlineapp.config.KeyGeneratorAndEncryption;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
@@ -19,22 +22,22 @@ import java.util.Map;
 public class JwtService {
 
 
-    private final KeyGenerator keyGenerator;
+    private final KeyGeneratorAndEncryption keyGenerator;
 
 
 
-    public String extractUserEmail(String jwtToken) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+    public String extractUserEmail(String jwtToken) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, ClassNotFoundException {
         Claims claims = extractAllClaims(jwtToken);
         return claims.getSubject();
     }
 
 
-    public String generateToken(UserDetails userDetails) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+    public String generateToken(UserDetails userDetails) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, ClassNotFoundException {
         return generateToken(new HashMap<>(), userDetails);
     }
 
 
-    public String generateToken(Map<String, Object> extraClaim, UserDetails userDetails) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+    public String generateToken(Map<String, Object> extraClaim, UserDetails userDetails) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, ClassNotFoundException {
 
 
         System.out.println(keyGenerator.getPrivateKey());
@@ -50,7 +53,7 @@ public class JwtService {
     }
 
 
-    private Claims extractAllClaims(String token) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+    private Claims extractAllClaims(String token) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, ClassNotFoundException {
 
 
         return Jwts
@@ -63,19 +66,19 @@ public class JwtService {
 
 
     public boolean isTokenValid(String token, UserDetails userDetails)
-            throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+            throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, ClassNotFoundException {
 
         final String username = extractUserEmail(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 
     }
 
-    private boolean isTokenExpired(String token) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+    private boolean isTokenExpired(String token) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, ClassNotFoundException {
         return extractExpiration(token).before(new Date());
     }
 
 
-    private Date extractExpiration(String token) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+    private Date extractExpiration(String token) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, ClassNotFoundException {
         Claims claims = extractAllClaims(token);
         return claims.getExpiration();
     }

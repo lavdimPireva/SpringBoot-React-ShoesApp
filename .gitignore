@@ -34,3 +34,7 @@ build/
 
 #modules
 node_modules/
+
+
+# AES Key
+encryption_key.dat
