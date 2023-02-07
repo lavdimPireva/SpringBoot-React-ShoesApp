@@ -23,6 +23,8 @@ public class KeyGeneratorAndEncryption {
 
     private static SecretKey encryptionKey; // AES key to encrypt the RSA private key.
     private PrivateKey privateKey; // private RSA key
+
+    private PublicKey publicKey;
     private final EncryptedPrivateKeyRepository encryptedPrivateKeyRepository;
     private EncryptedPrivateKey encryptedPrivateKey;
 
@@ -42,7 +44,7 @@ public class KeyGeneratorAndEncryption {
         keyGen.initialize(2048);
         KeyPair keyPair = keyGen.generateKeyPair();
         this.privateKey = keyPair.getPrivate();
-        PublicKey publicKey = keyPair.getPublic();
+        this.publicKey = keyPair.getPublic();
 
 
         // To verify signature  in jwt webpage.
@@ -135,4 +137,7 @@ public class KeyGeneratorAndEncryption {
         }
     }
 
+    public PublicKey getPublicKey() {
+        return publicKey;
+    }
 }

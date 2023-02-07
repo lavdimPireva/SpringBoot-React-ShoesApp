@@ -74,8 +74,6 @@ public class AuthenticationService {
                 .orElseThrow();
 
 
-
-
         var jwtToken = jwtService.generateToken(user);
 
         return AuthenticationResponse.builder()
