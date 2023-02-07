@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain) throws ServletException, IOException {
+            @NonNull FilterChain filterChain) {
 
         final String authHeader = request.getHeader("Authorization");
         final String jwtToken;
@@ -44,12 +44,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
+
+
+            UserDetails userDetails;
             jwtToken = authHeader.substring(7);
             userEmail = jwtService.extractUserEmail(jwtToken);
 
-            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() != null) {
+                userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+                if(!jwtService.isTokenValid(jwtToken, userDetails)) {
+                    SecurityContextHolder.clearContext();
+                }
+
+                filterChain.doFilter(request,response);
+
+            } else if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+                userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
             if (jwtService.isTokenValid(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
@@ -65,7 +77,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 // update security context
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
-
             filterChain.doFilter(request, response);
         }
     }

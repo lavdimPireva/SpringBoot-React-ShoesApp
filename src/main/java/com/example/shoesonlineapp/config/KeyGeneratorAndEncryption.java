@@ -3,6 +3,8 @@ import com.example.shoesonlineapp.entity.EncryptedPrivateKey;
 import com.example.shoesonlineapp.repository.EncryptedPrivateKeyRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.bouncycastle.util.io.pem.PemObject;
+import org.bouncycastle.util.io.pem.PemWriter;
 import org.springframework.context.annotation.Configuration;
 import javax.crypto.*;
 import java.io.*;
@@ -15,17 +17,19 @@ import java.security.spec.PKCS8EncodedKeySpec;
 @RequiredArgsConstructor
 public class KeyGeneratorAndEncryption {
 
-    private static final String ENCRYPTION_KEY_FILE = "encryption_key.dat"; // file to save the AES key.
+    private static final String ENCRYPTION_KEY_FILE = "encryption_aes_key.dat"; // file to save the AES key.
+
+    private static final String RSA_PUBLIC_KEY_PEM_FORMAT = "rsa_public_key.txt"; // file to save the AES key.
+
     private static SecretKey encryptionKey; // AES key to encrypt the RSA private key.
     private PrivateKey privateKey; // private RSA key
     private final EncryptedPrivateKeyRepository encryptedPrivateKeyRepository;
     private EncryptedPrivateKey encryptedPrivateKey;
 
 
-
     // method to generate RSA key and save it into database.
     @PostConstruct
-    public void generateKey() throws NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException,IOException {
+    public void generateKey() throws NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, IOException, ClassNotFoundException {
 
         this.encryptedPrivateKey = encryptedPrivateKeyRepository.findFirstByOrderByIdDesc();
 
@@ -38,8 +42,13 @@ public class KeyGeneratorAndEncryption {
         keyGen.initialize(2048);
         KeyPair keyPair = keyGen.generateKeyPair();
         this.privateKey = keyPair.getPrivate();
+        PublicKey publicKey = keyPair.getPublic();
 
-        // Now encrypt the private key and store in mongo
+
+        // To verify signature  in jwt webpage.
+        getPublicKeyInPemFormat(publicKey);
+
+        // Now encrypt the private key and store in Mongo
         Cipher cipher = Cipher.getInstance("AES");
         cipher.init(Cipher.ENCRYPT_MODE, getEncryptionKey());
 
@@ -91,8 +100,32 @@ public class KeyGeneratorAndEncryption {
 
 
 
+
+    public static void getPublicKeyInPemFormat(PublicKey publicKey) throws IOException, ClassNotFoundException {
+
+        PemObject pemObject = new PemObject("PUBLIC KEY", publicKey.getEncoded());
+        StringWriter stringWriter = new StringWriter();
+        PemWriter pemWriter = new PemWriter(stringWriter);
+        pemWriter.writeObject(pemObject);
+        pemWriter.flush();
+        pemWriter.close();
+        String publicKeyPem = stringWriter.toString();
+        System.out.println("Public Key in PEM format: \n" + publicKeyPem);
+
+       FileOutputStream fileOutputStream = new FileOutputStream(RSA_PUBLIC_KEY_PEM_FORMAT);
+       ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+       objectOutputStream.writeObject(publicKeyPem);
+       objectOutputStream.close();
+       fileOutputStream.close();
+
+
+    }
+
+
+
     // method to get the RSA private key.
     public PrivateKey getPrivateKey() throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeySpecException, InvalidKeyException, IOException, ClassNotFoundException {
+
         this.encryptedPrivateKey = encryptedPrivateKeyRepository.findFirstByOrderByIdDesc();
 
         if (encryptedPrivateKey != null) {
@@ -100,7 +133,6 @@ public class KeyGeneratorAndEncryption {
         } else {
             return this.privateKey;
         }
-
     }
 
 }

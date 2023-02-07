@@ -38,3 +38,6 @@ node_modules/
 
 # AES Key
 encryption_key.dat
+
+#Public key to verify signature
+rsa_public_key.txt

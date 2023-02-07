@@ -52,6 +52,8 @@ public class AuthenticationService {
 
         userRepository.save(user);
 
+
+
         var jwtToken = jwtService.generateToken(user);
 
         return AuthenticationResponse.builder()
@@ -70,6 +72,9 @@ public class AuthenticationService {
 
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow();
+
+
+
 
         var jwtToken = jwtService.generateToken(user);
 

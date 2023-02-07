@@ -31,6 +31,7 @@ public class AuthenticationController {
     ) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, ClassNotFoundException {
 
         return ResponseEntity.ok(authenticationService.register(request));
+
     }
 
     @PostMapping("/authenticate")

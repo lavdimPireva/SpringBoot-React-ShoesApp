@@ -40,7 +40,9 @@ public class JwtService {
     public String generateToken(Map<String, Object> extraClaim, UserDetails userDetails) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, ClassNotFoundException {
 
 
-        System.out.println(keyGenerator.getPrivateKey());
+        System.out.println("The key: " + keyGenerator.getPrivateKey());
+
+
 
         return Jwts
                 .builder()
@@ -53,8 +55,11 @@ public class JwtService {
     }
 
 
-    private Claims extractAllClaims(String token) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, ClassNotFoundException {
 
+
+
+    // This method verify the token if its been changed over the communication between client and server.
+    private Claims extractAllClaims(String token) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, ClassNotFoundException {
 
         return Jwts
                 .parserBuilder()
@@ -63,6 +68,8 @@ public class JwtService {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
+
 
 
     public boolean isTokenValid(String token, UserDetails userDetails)
