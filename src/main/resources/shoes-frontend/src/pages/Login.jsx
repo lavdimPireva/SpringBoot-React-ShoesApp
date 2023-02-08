@@ -9,6 +9,9 @@ import styled from "styled-components";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+import axios from "axios";
 
 const PageContainer = styled.div`
   display: flex;
@@ -41,14 +44,35 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     console.log("Username: ", username);
     console.log("Password: ", password);
-    // You can add code to send a POST request to your Spring Boot app here to log in the user.
+
+    const loggedUser = {
+      email: username,
+      password: password,
+    };
+
+    axios
+      .post("http://localhost:8080/api/v1/auth/login", loggedUser)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log("User login successfully");
+          localStorage.setItem("token", res.data.token);
+
+          console.log(localStorage);
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.error("Error registering user:", err);
+      });
   };
 
   return (

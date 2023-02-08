@@ -35,7 +35,10 @@ const useStyles = makeStyles((theme) => ({
   addToCartButton: {
     marginTop: 40,
     marginLeft: 190,
-    padding: "10px 20px",
+    padding: "10px 5px",
+    paddingTop: "10px",
+    width: "150px",
+    height: "40px",
   },
 
   title: {
@@ -145,7 +148,7 @@ const SingleProduct = () => {
           Shiko Shporten
         </Button>
       </Card>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 };

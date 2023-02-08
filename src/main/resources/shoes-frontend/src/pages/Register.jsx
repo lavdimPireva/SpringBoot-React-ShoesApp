@@ -8,6 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,6 +33,8 @@ const useStyles = makeStyles((theme) => ({
 const Register = () => {
   const classes = useStyles();
 
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
@@ -41,6 +45,33 @@ const Register = () => {
     event.preventDefault();
     console.log(name, surname, email, password, phoneNumber);
     // Add your own code here to handle the form submission and register a new user
+
+    const newUser = {
+      name: name,
+      surname: surname,
+      email: email,
+      password: password,
+    };
+
+    console.log("User", newUser);
+
+    axios
+      .post("http://localhost:8080/api/v1/auth/register", newUser)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log("User registered successfully");
+          localStorage.setItem("token", res.data.token);
+
+          console.log(localStorage);
+
+          setPassword("");
+
+          navigate("/login");
+        }
+      })
+      .catch((err) => {
+        console.error("Error registering user:", err);
+      });
   };
 
   return (

@@ -16,7 +16,7 @@ const WelcomeDescription = () => {
         align="center"
         color="primary"
       >
-        Mirsevini ne XSHOES STORE!{" "}
+        {/* Shoes shop{" "} */}
       </Typography>
       <Typography
         variant={isTabletOrMobile ? "body2" : "body1"}
