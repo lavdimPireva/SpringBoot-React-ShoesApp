@@ -17,7 +17,7 @@ public class OrderController {
 
     @PostMapping
     public OrderDetails saveOrder(@RequestBody OrderDetails orderDetails) {
-//        System.out.println("Order Details : " + orderDetails);
+        System.out.println("Order Details : " + orderDetails);
         return orderService.saveOrder(orderDetails);
     }
 

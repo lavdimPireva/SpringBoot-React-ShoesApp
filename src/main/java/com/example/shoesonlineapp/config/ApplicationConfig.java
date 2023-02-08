@@ -1,6 +1,4 @@
 package com.example.shoesonlineapp.config;
-
-
 import com.example.shoesonlineapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

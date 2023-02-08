@@ -40,10 +40,6 @@ public class JwtService {
     public String generateToken(Map<String, Object> extraClaim, UserDetails userDetails) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, ClassNotFoundException {
 
 
-        System.out.println("The key: " + keyGenerator.getPrivateKey());
-
-
-
         return Jwts
                 .builder()
                 .setClaims(extraClaim)
