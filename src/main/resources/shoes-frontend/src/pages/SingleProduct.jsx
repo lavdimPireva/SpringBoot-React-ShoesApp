@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import { useLocation } from "react-router-dom";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -13,12 +14,14 @@ import { useNavigate } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: 500,
-    height: 860,
+    height: 800,
     margin: "0 auto",
     marginTop: 20,
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+    border: "1px solid #ccc",
   },
   media: {
-    height: 100,
+    height: 50,
     paddingTop: "56.25%", // 16:9
   },
   content: {
@@ -33,6 +36,16 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 40,
     marginLeft: 190,
     padding: "10px 20px",
+  },
+
+  title: {
+    padding: theme.spacing(2),
+  },
+  numberContainer: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    padding: theme.spacing(2),
   },
 }));
 
@@ -93,10 +106,15 @@ const SingleProduct = () => {
             {price}€
           </Typography>
         </CardContent>
-        <Typography variant="h5" component="h2" gutterBottom>
+        <Typography
+          className={classes.title}
+          variant="h5"
+          component="h2"
+          gutterBottom
+        >
           Zgjedh numrin e kembes
         </Typography>
-        <div>
+        <div className={classes.numberContainer}>
           {series.map((number) => (
             <Button
               variant={number === selectedSeries ? "contained" : "outlined"}

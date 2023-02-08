@@ -201,7 +201,7 @@ const Cart = () => {
       <ToastContainer position="top-center" autoClose={5000} hideProgressBar />
       <div className={classes.root}>
         <Typography variant="h6" gutterBottom>
-          Porosit tua
+          Your orders
         </Typography>
         <List component="nav" aria-label="main mailbox folders">
           {cartItems.map((item, index) => (

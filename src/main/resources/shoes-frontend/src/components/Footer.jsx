@@ -5,9 +5,9 @@ import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   footer: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.error.main,
     color: theme.palette.common.white,
-    padding: theme.spacing(6),
+    padding: theme.spacing(2),
   },
   link: {
     color: theme.palette.common.white,

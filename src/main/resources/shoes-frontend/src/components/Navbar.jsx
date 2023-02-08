@@ -32,9 +32,17 @@ export default function Navbar() {
     navigate("/cart");
   };
 
+  const handleClick3 = (id) => {
+    navigate("/login");
+  };
+
+  const handleClick4 = (id) => {
+    navigate("/register");
+  };
+
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" style={{ background: "#ff5733" }}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -56,7 +64,13 @@ export default function Navbar() {
             Home
           </Button>
           <Button color="inherit" onClick={handleClick2}>
-            Porosit Tua
+            Orders
+          </Button>
+          <Button color="inherit" onClick={handleClick3}>
+            Login
+          </Button>
+          <Button color="inherit" onClick={handleClick4}>
+            Register
           </Button>
         </Toolbar>
       </AppBar>
