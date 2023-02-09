@@ -55,7 +55,6 @@ public class JwtService {
 
 
     // This method verify the token if its been changed over the communication between client and server.
-    // it verify using public key.
     private Claims extractAllClaims(String token) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, ClassNotFoundException {
 
         return Jwts
