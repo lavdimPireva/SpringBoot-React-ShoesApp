@@ -36,10 +36,6 @@ export default function Navbar() {
     navigate("/login");
   };
 
-  const handleClick4 = (id) => {
-    navigate("/register");
-  };
-
   return (
     <div className={classes.root}>
       <AppBar position="static" style={{ background: "#ff5733" }}>
@@ -68,9 +64,6 @@ export default function Navbar() {
           </Button>
           <Button color="inherit" onClick={handleClick3}>
             Login
-          </Button>
-          <Button color="inherit" onClick={handleClick4}>
-            Register
           </Button>
         </Toolbar>
       </AppBar>

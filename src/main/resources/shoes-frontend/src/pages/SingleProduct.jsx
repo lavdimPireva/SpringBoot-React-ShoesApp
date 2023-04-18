@@ -83,8 +83,12 @@ const SingleProduct = () => {
 
     if (selectedSeries) {
       const item = { name, price, selectedSeries };
+
       let cartItems = JSON.parse(localStorage.getItem("cartItems"));
-      if (!cartItems) {
+      console.log("cart items", cartItems);
+
+      if (cartItems != null) {
+        console.log("Cart Items is not null");
         cartItems = [];
       }
       cartItems.push(item);
