@@ -1,4 +1,4 @@
-package com.example.shoesonlineapp.controller;
+package com.example.shoesonlineapp.auth;
 
 
 import lombok.AllArgsConstructor;

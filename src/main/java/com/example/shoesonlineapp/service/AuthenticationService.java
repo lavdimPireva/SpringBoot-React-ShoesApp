@@ -3,7 +3,7 @@ package com.example.shoesonlineapp.service;
 
 import com.example.shoesonlineapp.auth.AuthenticationRequest;
 import com.example.shoesonlineapp.auth.AuthenticationResponse;
-import com.example.shoesonlineapp.controller.RegisterRequest;
+import com.example.shoesonlineapp.auth.RegisterRequest;
 import com.example.shoesonlineapp.entity.Role;
 import com.example.shoesonlineapp.entity.User;
 import com.example.shoesonlineapp.repository.UserRepository;
@@ -70,11 +70,12 @@ public class AuthenticationService {
                 )
         );
 
+
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow();
 
-
         var jwtToken = jwtService.generateToken(user);
+
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)

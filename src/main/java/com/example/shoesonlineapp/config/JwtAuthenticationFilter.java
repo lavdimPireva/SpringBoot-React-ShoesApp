@@ -42,21 +42,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
 
-
             UserDetails userDetails;
             jwtToken = authHeader.substring(7);
             userEmail = jwtService.extractUserEmail(jwtToken);
 
-            if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() != null) {
-                userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-
-                if(!jwtService.isTokenValid(jwtToken, userDetails)) {
-                    SecurityContextHolder.clearContext();
-                }
-
-                filterChain.doFilter(request,response);
-
-            } else if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
                 userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 

@@ -7,6 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EncryptedPrivateKeyRepository extends MongoRepository<EncryptedPrivateKey, String> {
 
-    EncryptedPrivateKey findFirstByOrderByIdDesc();
 
 }

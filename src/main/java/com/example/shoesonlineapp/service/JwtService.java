@@ -26,6 +26,8 @@ public class JwtService {
 
 
 
+
+
     public String extractUserEmail(String jwtToken) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, ClassNotFoundException {
         Claims claims = extractAllClaims(jwtToken);
         return claims.getSubject();
@@ -54,7 +56,6 @@ public class JwtService {
 
 
 
-    // This method verify the token if its been changed over the communication between client and server.
     private Claims extractAllClaims(String token) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, ClassNotFoundException {
 
         return Jwts
@@ -64,10 +65,7 @@ public class JwtService {
                 .parseClaimsJws(token)
                 .getBody();
     }
-
-
-
-
+    
 
 
     public boolean isTokenValid(String token, UserDetails userDetails)

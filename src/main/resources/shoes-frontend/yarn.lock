@@ -9694,6 +9694,19 @@
   "resolved" "https://registry.npmjs.org/punycode/-/punycode-1.3.2.tgz"
   "version" "1.3.2"
 
+"pusher-chatkit-client@^0.6.2":
+  "integrity" "sha512-4NaQuoNhK0WfGNcaYgDV/JXYYogFNztnU+PD/gfbCCAc+/JrNX8vjCfYRmHEiMEpUpY1DjYBYxyaVQdaxvCoAA=="
+  "resolved" "https://registry.npmjs.org/pusher-chatkit-client/-/pusher-chatkit-client-0.6.2.tgz"
+  "version" "0.6.2"
+  dependencies:
+    "pusher-platform" "^0.14.0"
+    "tslint-config-prettier" "^1.6.0"
+
+"pusher-platform@^0.14.0":
+  "integrity" "sha512-TOZ2vPTdrRBaubIAdl9YDx3bf6THzldDUppYriOvmWbEVeX5zeVoRsMyeWJTvo7T9h6Bwh/GTyrGPQ7LAhxNDQ=="
+  "resolved" "https://registry.npmjs.org/pusher-platform/-/pusher-platform-0.14.0.tgz"
+  "version" "0.14.0"
+
 "q@^1.1.2":
   "integrity" "sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc= sha512-kV/CThkXo6xyFEZUugw/+pIOywXcDbFYgSct5cT3gqlbkBE1SJdwy6UQoZvodiWF/ckQLZyDE/Bu1M6gVu5lVw=="
   "resolved" "https://registry.npmjs.org/q/-/q-1.5.1.tgz"
@@ -11704,6 +11717,11 @@
   "integrity" "sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A=="
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.1.0.tgz"
   "version" "2.1.0"
+
+"tslint-config-prettier@^1.6.0":
+  "integrity" "sha512-xPw9PgNPLG3iKRxmK7DWr+Ea/SzrvfHtjFt5LBl61gk2UBG/DB9kCXRjv+xyIU1rUtnayLeMUVJBcMX8Z17nDg=="
+  "resolved" "https://registry.npmjs.org/tslint-config-prettier/-/tslint-config-prettier-1.18.0.tgz"
+  "version" "1.18.0"
 
 "tsutils@^3.17.1":
   "integrity" "sha512-RYbuQuvkhuqVeXweWT3tJLKOEJ/UUw9GjNEZGWdrLLlM+611o1gwLHBpxoFJKKl25fLprp2eVthtKs5JOrNeXg=="

@@ -1,6 +1,7 @@
 package com.example.shoesonlineapp.controller;
 import com.example.shoesonlineapp.auth.AuthenticationRequest;
 import com.example.shoesonlineapp.auth.AuthenticationResponse;
+import com.example.shoesonlineapp.auth.RegisterRequest;
 import com.example.shoesonlineapp.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -9,35 +9,27 @@ import org.springframework.context.annotation.Configuration;
 import javax.crypto.*;
 import java.io.*;
 import java.security.*;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
 
 
 @Configuration
 @RequiredArgsConstructor
 public class KeyGeneratorAndEncryption {
-
-    private static final String ENCRYPTION_KEY_FILE = "encryption_aes_key.dat"; // file to save the AES key.
-
-    private static final String RSA_PUBLIC_KEY_PEM_FORMAT = "rsa_public_key.txt"; // file to save the AES key.
-
-    private static SecretKey encryptionKey; // AES key to encrypt the RSA private key.
-    private PrivateKey privateKey; // private RSA key
-
+    private static final String ENCRYPTION_KEY_FILE = "encryption_aes_key.dat";
+    private static final String RSA_PUBLIC_KEY_PEM_FORMAT = "rsa_public_key_pem_format.txt";
+    private static SecretKey encryptionKey;
+    private PrivateKey privateKey;
     private PublicKey publicKey;
+
     private final EncryptedPrivateKeyRepository encryptedPrivateKeyRepository;
-    private EncryptedPrivateKey encryptedPrivateKey;
+    private final EncryptedPrivateKey encryptedPrivateKey;
+
+
 
 
     // method to generate RSA key and save it into database.
     @PostConstruct
     public void generateKey() throws NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, IOException, ClassNotFoundException {
 
-        this.encryptedPrivateKey = encryptedPrivateKeyRepository.findFirstByOrderByIdDesc();
-
-        if(encryptedPrivateKey != null) {
-            return;
-        }
 
         // generate private RSA key.
         KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
@@ -49,20 +41,19 @@ public class KeyGeneratorAndEncryption {
 
         // To verify signature  in jwt webpage.
         getPublicKeyInPemFormat(publicKey);
+//        savePublicKeyToFile(publicKey, "rsa_public_key.txt");
+
 
         // Now encrypt the private key and store in Mongo
         Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.ENCRYPT_MODE, getEncryptionKey());
+        cipher.init(Cipher.ENCRYPT_MODE, getEncryptionKey()); // e merr qelsin sekret per enkriptim simetrik (AES)
 
-        byte[] encryptedRsaKey = cipher.doFinal(privateKey.getEncoded());
+        byte[] encryptedRsaKey = cipher.doFinal(this.privateKey.getEncoded()); // enkriptohet me qels sekret, qelsi privat i RSA.
 
-        this.encryptedPrivateKey = new EncryptedPrivateKey();
         this.encryptedPrivateKey.setEncryptedPrivateKey(encryptedRsaKey);
         encryptedPrivateKeyRepository.save(this.encryptedPrivateKey);
 
     }
-
-
 
 
     // method to encrypt RSA private key with AES algorithm
@@ -83,27 +74,11 @@ public class KeyGeneratorAndEncryption {
     }
 
 
-    // method to decrypt RSA private key
-    public PrivateKey getDecryptionKey(EncryptedPrivateKey encryptedPrivateKey) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, InvalidKeySpecException, IOException, ClassNotFoundException {
-
-        FileInputStream fileIn = new FileInputStream(ENCRYPTION_KEY_FILE);
-        ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-        SecretKey secretKey = (SecretKey) objectIn.readObject();
-        objectIn.close();
-        fileIn.close();
-
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.DECRYPT_MODE, secretKey);
-        byte[] decryptedRsaKey = cipher.doFinal(encryptedPrivateKey.getEncryptedPrivateKey());
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        return keyFactory.generatePrivate(new PKCS8EncodedKeySpec(decryptedRsaKey));
-
-    }
 
 
 
 
-    public static void getPublicKeyInPemFormat(PublicKey publicKey) throws IOException, ClassNotFoundException {
+    public static void getPublicKeyInPemFormat(PublicKey publicKey) throws IOException {
 
         PemObject pemObject = new PemObject("PUBLIC KEY", publicKey.getEncoded());
         StringWriter stringWriter = new StringWriter();
@@ -120,24 +95,15 @@ public class KeyGeneratorAndEncryption {
        objectOutputStream.close();
        fileOutputStream.close();
 
-
     }
 
 
-
-    // method to get the RSA private key.
-    public PrivateKey getPrivateKey() throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeySpecException, InvalidKeyException, IOException, ClassNotFoundException {
-
-        this.encryptedPrivateKey = encryptedPrivateKeyRepository.findFirstByOrderByIdDesc();
-
-        if (encryptedPrivateKey != null) {
-            return getDecryptionKey(encryptedPrivateKey);
-        } else {
-            return this.privateKey;
-        }
+    public PrivateKey getPrivateKey() {
+      return this.privateKey;
     }
 
-    public PublicKey getPublicKey() {
-        return publicKey;
+    public PublicKey getPublicKey()  {
+        return this.publicKey;
     }
+
 }
