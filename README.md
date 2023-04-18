@@ -38,6 +38,11 @@ A step by step series of examples that tell you how to get a development environ
 - Add models to the cart
 - Fill out a form with shipping information
 - Submit the order
+- Login and register pages for authentication
+
+## Authentication
+
+The application uses JSON Web Token (JWT) for authentication purposes. The token is signed using RSA algorithm, and the private RSA key is encrypted using AES algorithm. The encrypted private RSA key is saved in the MongoDB database, and the JWT token is saved in localstorage.
 
 
 ### Built With
