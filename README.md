@@ -75,8 +75,8 @@ Here are some screenshots of the frontend UI of my project.
   </div>
   
   <div margin-bottom: 20px;">
-    <img src="https://github.com/lavdimPireva/springboot-react-project/blob/main/screenshot/frontend_shoe_details.png" alt="Homepage" width="40%" height="560">  
-    <img src="https://github.com/lavdimPireva/springboot-react-project/blob/main/screenshot/frontend_order_details.png" alt="Order Details" width="40%" height="560">
+    <img src="https://github.com/lavdimPireva/springboot-react-project/blob/main/screenshot/frontend_shoe_details.png" alt="Homepage" width="35%" height="520">  
+    <img src="https://github.com/lavdimPireva/springboot-react-project/blob/main/screenshot/frontend_order_details.png" alt="Order Details" width="35%" height="520">
   </div>
   
    <div style="flex-basis: 100%; margin-bottom: 20px;">
