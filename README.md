@@ -135,11 +135,11 @@ In order to implement JWT, we use RSA algorithm to as signature algorithm. This 
 First in the moment when app is being executed we use a class generator that generate private and public keys of RSA. The code below show us how the keys are being generated:
 
 ```java
-        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-        keyGen.initialize(2048);
-        KeyPair keyPair = keyGen.generateKeyPair();
-        this.privateKey = keyPair.getPrivate();
-        this.publicKey = keyPair.getPublic();
+KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+keyGen.initialize(2048);
+KeyPair keyPair = keyGen.generateKeyPair();
+this.privateKey = keyPair.getPrivate();
+this.publicKey = keyPair.getPublic();
 ```
 
 The public key in PEM format would be something like below : 
