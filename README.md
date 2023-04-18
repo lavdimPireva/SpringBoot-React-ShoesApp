@@ -61,8 +61,8 @@ Here are some screenshots of the frontend UI of my project.
   </div>
 
 <div style="display: flex; flex-wrap: nowrap; justify-content: space-between;">
-    <img src="https://github.com/lavdimPireva/springboot-react-project/blob/main/screenshot/frontend_login_page.png?raw=true" alt="Login" width="40%" height="500">
-    <img src="https://github.com/lavdimPireva/springboot-react-project/blob/main/screenshot/frontend_Register_page.png?raw=true" alt="Register" width="40%" height="500">
+    <img src="https://github.com/lavdimPireva/springboot-react-project/blob/main/screenshot/frontend_login_page.png?raw=true" alt="Login" width="45%" height="500">
+    <img src="https://github.com/lavdimPireva/springboot-react-project/blob/main/screenshot/frontend_Register_page.png?raw=true" alt="Register" width="45%" height="500">
   </div>
 
   <div style="flex-basis: 100%; margin-bottom: 20px;">
@@ -135,7 +135,7 @@ In order to implement JWT, we use RSA algorithm to as signature algorithm. This 
 First in the moment when app is being executed we use a class generator that generate private and public keys of RSA. The code below show us how the keys are being generated:
 
 ```java
-  KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
         keyGen.initialize(2048);
         KeyPair keyPair = keyGen.generateKeyPair();
         this.privateKey = keyPair.getPrivate();
@@ -196,9 +196,55 @@ When the token is back to the client, in our react app we grab that token and se
     <img src="https://github.com/lavdimPireva/springboot-react-project/blob/main/screenshot/localStorage.png" alt="mongodb_user" width="auto" height="auto">
   </div>
 
+
 ### USING POSTMAN
 
-Now that we have token we can make another request that is secured in our backend. In those subsequent requests we have to include the token in our req like below :
+Now that we have token we can make another request that is secured in our backend. In those subsequent requests we have to include the token in our requests like below :
+
+<div style="flex-basis: 100%; margin-bottom: 20px;">
+    <p style="text-align: center; font-weight: bold;">PROTECTED ROUTE</p>
+    <img src="https://github.com/lavdimPireva/springboot-react-project/blob/main/screenshot/protected_route_access.png" alt="mongodb_user" width="auto" height="auto">
+  </div>
+  
+If we grab the token and paste it into the webpage of jwt (https://jwt.io/) we can see in decoded section the informaiton that token holds. Also if we grab the public key that was generated in server, we can see that signature is verified as below : 
+
+  <div style="flex-basis: 100%; margin-bottom: 20px;">
+    <p style="text-align: center; font-weight: bold;">Signature Verified using RSA Public Key</p>
+    <img src="https://github.com/lavdimPireva/springboot-react-project/blob/main/screenshot/signature_verified_jwt_webpage.png" alt="signature verified" width="50%" height="auto">
+  </div>
+  
+  
+### Encrypting RSA Private Key using AES algorithm:
+
+In order to keep secure the RSA private key, I used symmetric algorithm (AES) to encrypt the key with the secret key of AES and save it into MongoDB. 
+The secret key of AES than we can save it into AWS KMS (todo).
+The snippet code below shows the encryption of RSA private key using AES algorithm : 
+
+
+```java
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, getEncryptionKey()); 
+
+        byte[] encryptedRsaKey = cipher.doFinal(this.privateKey.getEncoded());
+
+        this.encryptedPrivateKey.setEncryptedPrivateKey(encryptedRsaKey);
+        encryptedPrivateKeyRepository.save(this.encryptedPrivateKey);
+   
+    }
+```
+
+### MongoDB 
+
+ <div style="flex-basis: 100%; margin-bottom: 20px;">
+    <p style="text-align: center; font-weight: bold;">MongoDB encryption private key</p>
+    <img src="https://github.com/lavdimPireva/springboot-react-project/blob/main/screenshot/mongo_db_encryptionPrivateKey.png" width="auto" height="auto">
+  </div>
+
+ <div style="flex-basis: 100%; margin-bottom: 20px;">
+    <p style="text-align: center; font-weight: bold;">Shipping informations stored in Mongodb</p>
+    <img src="https://github.com/lavdimPireva/springboot-react-project/blob/main/screenshot/mongo_db_order_saved.png"  width="400" height="500">
+  </div>
+
 
 
 
