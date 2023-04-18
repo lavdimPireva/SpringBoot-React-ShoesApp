@@ -203,7 +203,7 @@ Now that we have token we can make another request that is secured in our backen
 
 <div style="flex-basis: 100%; margin-bottom: 20px;">
     <p style="text-align: center; font-weight: bold;">PROTECTED ROUTE</p>
-    <img src="https://github.com/lavdimPireva/springboot-react-project/blob/main/screenshot/protected_route_access.png" alt="mongodb_user" width="auto" height="auto">
+    <img src="https://github.com/lavdimPireva/springboot-react-project/blob/main/screenshot/protected_route_access.png" alt="mongodb_user" width="700" height="500">
   </div>
   
 If we grab the token and paste it into the webpage of jwt (https://jwt.io/) we can see in decoded section the informaiton that token holds. Also if we grab the public key that was generated in server, we can see that signature is verified as below : 
